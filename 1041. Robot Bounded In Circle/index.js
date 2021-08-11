@@ -40,8 +40,10 @@ Result = 1
 */
 
 /*
-Considerations: We are goin gto receive the directions as a string so we will need to iterate it somehow, on javascript we can use a function to get the chartAt or we can split it to convert the string to an array.
-
+Considerations: 
+We are goin gto receive the directions as a string so we will need to iterate it somehow, on javascript we can use a function to get the chartAt or we can split it to convert the string to an array.
+We In the case the robot does not end on the coordinated (0,0) in the first interation, if we repeat it 4 times it should end up on the initial position. 
+We can  assume that  our robot will end up on the initial point if robotDirection if different than the initial direction, in this case if it's different from 0
 */
 
 var isRobotBounded = function(instructions) {
