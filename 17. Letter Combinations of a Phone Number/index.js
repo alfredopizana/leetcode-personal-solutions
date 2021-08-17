@@ -66,6 +66,8 @@ function Node(value) {
     this.dictionary = new Dictionary();
     this.combinations = []
     this.generateChildren = (numbers) => { // "2 -> 34"
+        if(!numbers)
+            return
         let currentNumber = parseInt(numbers.charAt(0)) // 2
         let pendingNumbers = numbers.substring(1) // 34
         let combinations = this.dictionary.digits[currentNumber];
@@ -78,6 +80,8 @@ function Node(value) {
     }
     this.getRecursiveCombinations = () => {
         let nodeIsLeaf =  this.children.length === 0
+        if(!this.data && nodeIsLeaf)
+            return []
         if(nodeIsLeaf)
             return [this.data]
         for (let index = 0; index < this.children.length; index++) {
@@ -107,4 +111,4 @@ var letterCombinations = function (digits) {
 // O (4^2)
 //let node = new Node("")
 //node.generateChildren("234")
-console.log(letterCombinations("79"))
+console.log(letterCombinations("23"))
