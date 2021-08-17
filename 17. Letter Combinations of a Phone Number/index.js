@@ -45,47 +45,66 @@ e.g.
  * @return {string[]}
  */
 
- /**
- * @param {string} digits
- * @return {string[]}
- */
-function Dictionary(){
+/**
+* @param {string} digits
+* @return {string[]}
+*/
+function Dictionary() {
     this.digits = []
-    this.digits[2] = ["a","b","c"]
-    this.digits[3] = ["d","e","f"]
-    this.digits[4] = ["g","h","i"]
-    this.digits[5] = ["j","k","l"]
-    this.digits[6] = ["m","n","o"]
-    this.digits[7] = ["p","q","r","s"]
-    this.digits[8] = ["t","u","v"]
-    this.digits[9] = ["w","x","y","z"]
+    this.digits[2] = ["a", "b", "c"]
+    this.digits[3] = ["d", "e", "f"]
+    this.digits[4] = ["g", "h", "i"]
+    this.digits[5] = ["j", "k", "l"]
+    this.digits[6] = ["m", "n", "o"]
+    this.digits[7] = ["p", "q", "r", "s"]
+    this.digits[8] = ["t", "u", "v"]
+    this.digits[9] = ["w", "x", "y", "z"]
 }
-function Node(value){
+function Node(value) {
     this.data = value;
     this.children = [];
     this.dictionary = new Dictionary();
-    this.generateChildren = (numbers)=>{
-        let currentNumber = parseInt(numbers.charAt(0))
-        let pendingNumbers = numbers.substring(1)
+    this.combinations = []
+    this.generateChildren = (numbers) => { // "2 -> 34"
+        let currentNumber = parseInt(numbers.charAt(0)) // 2
+        let pendingNumbers = numbers.substring(1) // 34
         let combinations = this.dictionary.digits[currentNumber];
-        for(let index=0; index < combinations.length; index++){
-            let child =  new Node(combinations[index]);
-            if(pendingNumbers.length > 0)
+        for (let index = 0; index < combinations.length; index++) {
+            let child = new Node(combinations[index]);
+            if (pendingNumbers.length > 0)
                 child.generateChildren(pendingNumbers);
             this.children.push(child)
         }
     }
-    this.getRecursiveCombinations = ()=>{
-        let combinations = []
-        for(let index = 0; children.lenght;index++){
-            
-            combinations.push(children[index].getRecursiveCombinations())
+    this.getRecursiveCombinations = () => {
+        let nodeIsLeaf =  this.children.length === 0
+        if(nodeIsLeaf)
+            return [this.data]
+        for (let index = 0; index < this.children.length; index++) {
+            let childNode = this.children[index]
+            if (childNode) {
+                let childCombinations = childNode.getRecursiveCombinations()
+                let childMappedCombinations = []
+                
+                    childMappedCombinations = childCombinations.map(item => {
+                        return (this.data + item)
+                    })
+                
+                this.combinations = [...this.combinations, ...childMappedCombinations]
+            }
+
         }
-        return combinations
+        return this.combinations
     }
 }
-let node = new Node("")
-node.generateChildren("23")
-var letterCombinations = function(digits) {
-    
+
+var letterCombinations = function (digits) {
+    let node = new Node("")
+    node.generateChildren(digits)
+    return node.getRecursiveCombinations()
 };
+
+// O (4^2)
+//let node = new Node("")
+//node.generateChildren("234")
+console.log(letterCombinations("79"))
