@@ -5,16 +5,16 @@
  var bulbSwitch = function(n) {
     if(n=== 0)
         return 0;
-    let state = Array(n).fill(0)    
-    for(let index = 1 ; index <= n; index ++){
-        // 2  <= 2
-        for(let initialTogglePosition = index; initialTogglePosition <= n; initialTogglePosition += index){
-
-                state[initialTogglePosition-1] = !state[initialTogglePosition-1];
-            
+    let state = Array(n).fill(0,1)
+    state[0] = true;
+    for(let index = 2 ; index <= n; index = index*index ){
+        let switchedBulb = index*index
+        if (switchedBulb > n){
+            break;
         }
+        state[switchedBulb-1] = !state[switchedBulb-1];
+
     }
-    console.log({n,state});
     return state.filter(bulbOn => bulbOn).length
 };
 
@@ -36,4 +36,4 @@ console.log("100: " + bulbSwitch(100));
 
 console.log("1000: " + bulbSwitch(1000));
 
-//console.log("99999999: " + bulbSwitch(99999999));
+console.log("99999999: " + bulbSwitch(99999999));
