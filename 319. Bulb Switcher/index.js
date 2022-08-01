@@ -3,20 +3,21 @@
  * @return {number}
  */
  var bulbSwitch = function(n) {
-    if(n=== 0)
+    if(n<= 0)
         return 0;
-    let state = Array(n).fill(0,1)
-    state[0] = true;
-    for(let index = 2 ; index <= n; index = index*index ){
+    let BulbsOn = new Map();
+
+    for(let index = 1 ; index <= n; index++ ){
         let switchedBulb = index*index
         if (switchedBulb > n){
             break;
         }
-        state[switchedBulb-1] = !state[switchedBulb-1];
+        BulbsOn.set(switchedBulb,true)
 
     }
-    return state.filter(bulbOn => bulbOn).length
+    return BulbsOn.size;
 };
+
 
 console.log(bulbSwitch(0));
 console.log(bulbSwitch(1));
